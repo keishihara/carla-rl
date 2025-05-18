@@ -1,0 +1,38 @@
+[tool.ruff]
+exclude = [".git", ".mypy_cache", ".ruff_cache", ".venv", "third_party"]
+line-length = 120
+target-version = "py38"
+
+[tool.ruff.lint]
+# https://docs.astral.sh/ruff/rules/
+fixable = ["ALL"]
+unfixable = []
+select = [
+    "A",  # flake8-builtin
+    "B",  # flake8-bugbear
+    "E",  # pycodestyle error
+    "F",  # Pyflakes
+    "I",  # isort
+    "N",  # pep8-naming
+    "W",  # pycodestyle warning
+    "PL",  # Pylint
+    "UP",  # pyupgrade
+]
+ignore = [
+    "B905",  # Zip-without-explicit-strict
+    "E501",  # Line too long
+    "F403",  # Unable to detect undefined names
+    "F722",  # Checks for forward annotations
+    "F821",  # Checks for uses of undefined names
+    "N806",  # non-lowercase-variable-in-function
+    "N812",  # Lowercase imported as non-lowercase
+    "N999",  # Invalid module name
+    "PLR0912",  # Too many branches
+    "PLR0913",  # Too many arguments in function definition
+    "PLR2004",  # Magic value used in comparison
+    "PLW2901",  # redefined-loop-name
+]
+
+[tool.ruff.format]
+quote-style = "double"
+line-ending = "auto"
