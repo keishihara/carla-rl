@@ -228,7 +228,7 @@ class CarlaMultiAgentEnv(gym.Env):
             completed = info_dict["hero"]["route_completion"]["route_completed_in_m"]
             length = info_dict["hero"]["route_completion"]["route_length_in_m"]
             print(
-                f"[step={self._timestamp['step']}] completed: {completed:.2f}m, length: {length:.2f}m, "
+                f"[step={self._timestamp['step']}, {self._carla_map}] completed: {completed:.2f}m, length: {length:.2f}m, "
                 f"ratio: {completed / length * 100:.2f}%"
             )
 
@@ -303,6 +303,8 @@ class CarlaMultiAgentEnv(gym.Env):
 
     @property
     def timestamp(self):
+        if not hasattr(self, "_timestamp"):
+            raise ValueError("timestamp is not set. Please call reset() first.")
         return self._timestamp.copy()
 
     @timestamp.setter

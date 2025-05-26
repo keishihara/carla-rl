@@ -49,7 +49,7 @@ def main(cfg: DictConfig):
     try:
         agent_name = cfg.actors[cfg.ev_id].agent
 
-        last_checkpoint_path = Path(hydra.utils.get_original_cwd()) / "outputs" / "checkpoint.txt"
+        last_checkpoint_path = Path(hydra.utils.get_original_cwd()) / "outputs" / "checkpoint_train.txt"
         if last_checkpoint_path.exists():
             with open(last_checkpoint_path) as f:
                 wb_run_path = f.read().strip()

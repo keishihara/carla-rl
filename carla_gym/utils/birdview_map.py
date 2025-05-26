@@ -45,10 +45,7 @@ class MapImage:
         topology = [x[0] for x in carla_map.get_topology()]
         topology = sorted(topology, key=lambda w: w.transform.location.z)
 
-        print(1)
-
         for i, waypoint in enumerate(topology):
-            print(2, i)
             waypoints = [waypoint]
             # Generate waypoints of a road id. Stop when road id differs
             nxt = waypoint.next(precision)
@@ -121,8 +118,6 @@ class MapImage:
                     world_offset,
                 )
 
-        print(5)
-
         # stoplines
         stopline_surface = pygame.Surface((width_in_pixels, width_in_pixels))
 
@@ -133,8 +128,6 @@ class MapImage:
                     MapImage.world_to_pixel(loc_right, pixels_per_meter, world_offset),
                 ]
                 MapImage.draw_line(stopline_surface, stopline_points, 2)
-
-        print(6)
 
         # np.uint8 mask
         def _make_mask(x):

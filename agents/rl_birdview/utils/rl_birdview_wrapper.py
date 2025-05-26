@@ -128,7 +128,8 @@ class RlBirdviewWrapper(gym.Wrapper):
         self._render_dict["action_sigma"] = getattr(self, "action_sigma", None)
         return self.im_render(self._render_dict)
 
-    def im_render(self, render_dict):
+    @staticmethod
+    def im_render(render_dict):
         im_birdview = render_dict.get("im_render", None)
         if im_birdview is None:
             im_birdview = render_dict["prev_im_render"]
@@ -136,10 +137,15 @@ class RlBirdviewWrapper(gym.Wrapper):
         im = np.zeros([h, w * 2, c], dtype=np.uint8)
         im[:h, :w] = im_birdview
 
-        action_str = self._get_string(render_dict, "action")
-        mu_str = self._get_string(render_dict, "action_mu")
-        sigma_str = self._get_string(render_dict, "action_sigma")
-        state_str = self._get_string(render_dict, "obs")
+        def _get_string(render_dict, key):
+            if key in render_dict and isinstance(render_dict[key], np.ndarray):
+                return np.array2string(render_dict[key], precision=2, separator=",", suppress_small=True)
+            return "N/A"
+
+        action_str = _get_string(render_dict, "action")
+        mu_str = _get_string(render_dict, "action_mu")
+        sigma_str = _get_string(render_dict, "action_sigma")
+        state_str = _get_string(render_dict, "obs")
 
         txt_t = f"step:{render_dict['timestamp']['step']:5}, frame:{render_dict['timestamp']['frame']:5}"
         im = cv2.putText(im, txt_t, (3, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1)
@@ -162,13 +168,6 @@ class RlBirdviewWrapper(gym.Wrapper):
             im = cv2.putText(im, txt, (w, (i + 2) * 12), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1)
 
         return im
-
-    @staticmethod
-    def _get_string(render_dict, key):
-        if key in render_dict and isinstance(render_dict[key], np.ndarray):
-            return np.array2string(render_dict[key], precision=2, separator=",", suppress_small=True)
-        else:
-            return "N/A"
 
     @staticmethod
     def process_obs(obs, input_states, train=True):

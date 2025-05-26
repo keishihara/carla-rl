@@ -96,7 +96,7 @@ class PPO:
                     0
                 ]  # seconds to hh:mm:ss
                 print(
-                    f"[rollout] elapsed {elapsed}, global timesteps {self.num_timesteps}, n_steps {n_steps}, steps/s {steps_per_second:.2f}"
+                    f"[rollout] elapsed {elapsed}, global timesteps {self.num_timesteps:,}, n_steps {n_steps:,}, steps/s {steps_per_second:.2f}"
                 )
             actions, values, log_probs, mu, sigma, _ = self.policy.forward(self._last_obs)
             self.action_statistics.append(actions)
